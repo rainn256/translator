@@ -13,7 +13,7 @@ export async function onRequest(context) {
         }
 
         // 通过 Service Binding 调用翻译 Worker
-        const translateRequest = new Request('https://internal', {
+        const translateRequest = new Request('/deepl', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json'},
             body: JSON.stringify({
