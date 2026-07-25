@@ -257,7 +257,7 @@ async function doTranslate() {
         }
 
         const data = await res.json()
-        targetText.value = data.result || data.translated_text || ''
+        targetText.value = data.result || data.data || data.translated_text || ''
 
         // 更新检测到的源语言
         if (data.source_lang) {
