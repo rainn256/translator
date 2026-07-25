@@ -24,6 +24,13 @@ export async function onRequest(context) {
         })
         // 使用 Binding 的 fetch 方法发起内部调用
         const resp = await env.TRANSLATE_SERVICE.fetch(translateRequest)
+        if (!resp.ok) {
+            const errorBody = await resp.text()
+            return new Response(JSON.stringify({ error: `翻译服务异常: ${resp.status} - ${errorBody}` }), { 
+                status: resp.status,
+                headers: { 'Content-Type': 'application/json' }
+            })
+        }
 
         const data = await resp.json()
         return new Response(JSON.stringify(data), {
@@ -31,6 +38,6 @@ export async function onRequest(context) {
             headers: { 'Content-Type': 'application/json' }
         })
     } catch (err) {
-        return new Response(JSON.stringify({ error: '翻译服务异常' }), { status: 500 })
+        return new Response(JSON.stringify({ error: '翻译服务调用失败' + + err.message }), { status: 500 })
     }
 }
