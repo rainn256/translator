@@ -38,6 +38,6 @@ export async function onRequest(context) {
             headers: { 'Content-Type': 'application/json' }
         })
     } catch (err) {
-        return new Response(JSON.stringify({ error: '翻译服务调用失败' + + err.message }), { status: 500 })
+        return new Response(JSON.stringify({ error: '翻译服务调用失败' + err }), { status: 500 })
     }
 }
