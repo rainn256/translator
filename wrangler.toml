@@ -1,0 +1,6 @@
+name = "translator"
+compatibility_date = "2026-07-25"
+
+[pages]
+  build_command = "npm run build"
+  output_dir = "dist"
