@@ -12,21 +12,18 @@ export async function onRequest(context) {
             return new Response(JSON.stringify({ error: '缺少 text 参数' }), { status: 400 })
         }
 
-        // 从环境变量获取翻译 Worker 地址
-        const translateUrl = env.TRANSLATE_WORKER_URL
-        if (!translateUrl) {
-            return new Response(JSON.stringify({ error: '翻译服务未配置' }), { status: 500 })
-        }
-
-        const resp = await fetch(translateUrl, {
+        // 通过 Service Binding 调用翻译 Worker
+        const translateRequest = new Request('https://internal', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json'},
             body: JSON.stringify({
-                text,
+                text, 
                 target_lang: target_lang || 'ZH',
                 source_lang: source_lang || 'AUTO'
             })
         })
+        // 使用 Binding 的 fetch 方法发起内部调用
+        const resp = await env.TRANSLATE_SERVICE.fetch(translateRequest)
 
         const data = await resp.json()
         return new Response(JSON.stringify(data), {

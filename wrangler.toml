@@ -4,3 +4,7 @@ compatibility_date = "2026-07-25"
 [pages]
   build_command = "npm run build"
   output_dir = "dist"
+
+[[services]]
+binding = "TRANSLATE_SERVICE"
+service = "你的翻译Worker名称"
